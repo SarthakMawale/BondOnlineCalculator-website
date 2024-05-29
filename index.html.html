@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<style>
+    body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #282c34;
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    color: white;
+}
+
+nav {
+    margin-bottom: 20px;
+}
+
+nav button {
+    background-color: #f08a24;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    margin: 0 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+nav button:hover {
+    background-color: #d3791d;
+}
+
+.section {
+    display: none;
+}
+
+.section.active {
+    display: block;
+}
+
+.calculator {
+    background-color: #333;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    width: 300px;
+    padding: 20px;
+}
+
+.display {
+    margin-bottom: 20px;
+}
+
+.display input {
+    width: 100%;
+    height: 60px;
+    background-color: #444;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 2em;
+    text-align: right;
+    padding: 0 10px;
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+.btn {
+    background-color: #555;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.5em;
+    padding: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #777;
+}
+
+.operator {
+    background-color: #f08a24;
+}
+
+.operator:hover {
+    background-color: #d3791d;
+}
+
+.zero {
+    grid-column: span 2;
+}
+
+</style>
+    
+
+<body>
+    <nav>
+        <button onclick="showSection('home')">Home</button>
+        <button onclick="showSection('basic-calculator')">Basic Calculator</button>
+        <button onclick="showSection('scientific-calculator')">Scientific Calculator</button>
+    </nav>
+    <div id="home" class="section">
+        <h1>Welcome to Online Calculator</h1>
+        <p>Select a calculator from the navigation above.</p>
+    </div>
+    <div id="basic-calculator" class="section" style="display: none;">
+        <div class="calculator">
+            <div class="display">
+                <input type="text" id="basic-display" readonly>
+            </div>
+            <div class="buttons">
+                <button class="btn" onclick="clearDisplay('basic-display')">C</button>
+                <button class="btn" onclick="deleteLast('basic-display')">DEL</button>
+                <button class="btn" onclick="appendCharacter('basic-display', '%')">%</button>
+                <button class="btn operator" onclick="appendCharacter('basic-display', '/')">/</button>
+                <button class="btn" onclick="appendCharacter('basic-display', '7')">7</button>
+                <button class="btn" onclick="appendCharacter('basic-display', '8')">8</button>
+                <button class="btn" onclick="appendCharacter('basic-display', '9')">9</button>
+                <button class="btn operator" onclick="appendCharacter('basic-display', '*')">*</button>
+                <button class="btn" onclick="appendCharacter('basic-display', '4')">4</button>
+                <button class="btn" onclick="appendCharacter('basic-display', '5')">5</button>
+                <button class="btn" onclick="appendCharacter('basic-display', '6')">6</button>
+                <button class="btn operator" onclick="appendCharacter('basic-display', '-')">-</button>
+                <button class="btn" onclick="appendCharacter('basic-display', '1')">1</button>
+                <button class="btn" onclick="appendCharacter('basic-display', '2')">2</button>
+                <button class="btn" onclick="appendCharacter('basic-display', '3')">3</button>
+                <button class="btn operator" onclick="appendCharacter('basic-display', '+')">+</button>
+                <button class="btn zero" onclick="appendCharacter('basic-display', '0')">0</button>
+                <button class="btn" onclick="appendCharacter('basic-display', '.')">.</button>
+                <button class="btn operator" onclick="calculateResult('basic-display')">=</button>
+            </div>
+        </div>
+    </div>
+    <div id="scientific-calculator" class="section" style="display: none;">
+        <div class="calculator">
+            <div class="display">
+                <input type="text" id="scientific-display" readonly>
+            </div>
+            <div class="buttons">
+                <button class="btn" onclick="clearDisplay('scientific-display')">C</button>
+                <button class="btn" onclick="deleteLast('scientific-display')">DEL</button>
+                <button class="btn" onclick="appendCharacter('scientific-display', '(')">(</button>
+                <button class="btn" onclick="appendCharacter('scientific-display', ')')">)</button>
+                <button class="btn" onclick="appendCharacter('scientific-display', '7')">7</button>
+                <button class="btn" onclick="appendCharacter('scientific-display', '8')">8</button>
+                <button class="btn" onclick="appendCharacter('scientific-display', '9')">9</button>
+                <button class="btn operator" onclick="appendCharacter('scientific-display', '/')">/</button>
+                <button class="btn" onclick="appendCharacter('scientific-display', '4')">4</button>
+                <button class="btn" onclick="appendCharacter('scientific-display', '5')">5</button>
+                <button class="btn" onclick="appendCharacter('scientific-display', '6')">6</button>
+                <button class="btn operator" onclick="appendCharacter('scientific-display', '*')">*</button>
+                <button class="btn" onclick="appendCharacter('scientific-display', '1')">1</button>
+                <button class="btn" onclick="appendCharacter('scientific-display', '2')">2</button>
+                <button class="btn" onclick="appendCharacter('scientific-display', '3')">3</button>
+                <button class="btn operator" onclick="appendCharacter('scientific-display', '-')">-</button>
+                <button class="btn zero" onclick="appendCharacter('scientific-display', '0')">0</button>
+                <button class="btn" onclick="appendCharacter('scientific-display', '.')">.</button>
+                <button class="btn operator" onclick="appendCharacter('scientific-display', '+')">+</button>
+                <button class="btn" onclick="appendCharacter('scientific-display', 'Math.sin(')">sin</button>
+                <button class="btn" onclick="appendCharacter('scientific-display', 'Math.cos(')">cos</button>
+                <button class="btn" onclick="appendCharacter('scientific-display', 'Math.tan(')">tan</button>
+                <button class="btn operator" onclick="calculateResult('scientific-display')">=</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        function showSection(sectionId) {
+    const sections = document.querySelectorAll('.section');
+    sections.forEach(section => {
+        section.style.display = 'none';
+    });
+    document.getElementById(sectionId).style.display = 'block';
+}
+
+let basicDisplay = document.getElementById('basic-display');
+let scientificDisplay = document.getElementById('scientific-display');
+
+function appendCharacter(displayId, char) {
+    document.getElementById(displayId).value += char;
+}
+
+function clearDisplay(displayId) {
+    document.getElementById(displayId).value = '';
+}
+
+function deleteLast(displayId) {
+    let display = document.getElementById(displayId);
+    display.value = display.value.slice(0, -1);
+}
+
+function calculateResult(displayId) {
+    let display = document.getElementById(displayId);
+    try {
+        display.value = eval(display.value);
+    } catch {
+        display.value = 'Error';
+    }
+}
+
+    </script>
+</body>
+</html>
